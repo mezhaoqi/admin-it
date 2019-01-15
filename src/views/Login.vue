@@ -46,11 +46,11 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           checkUser(this.form).then(res => {
+            // console.log(res);
             if (res.meta.status === 200) {
+              localStorage.setItem('mytoken',res.data.token)
               this.$router.push({ name: "Home" });
             } else {
-              // console.log(res);
-
               this.$message({
                 message: res.meta.msg,
                 type: "error"
@@ -58,7 +58,7 @@ export default {
             }
           });
         } else {
-          console.log("0");
+          console.log("校验部通过");
         }
       });
     }
