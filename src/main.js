@@ -11,6 +11,20 @@ import '@/styles/index.scss'
 
 Vue.use(ElementUI);
 
+//全局守卫
+router.beforeEach((to, from, next) => {
+  let token = localStorage.getItem('mytoken');
+  if (token) {
+    next()
+  } else {
+    if (to.path !== '/login') {
+      next('/login')
+    } else {
+      next()
+    }
+  }
+})
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
