@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <el-container>
-      <el-aside width="200px">
-          <div class="logo"></div>
+      <el-aside width="auto">
+        <div class="logo"></div>
         <el-menu
           default-active="2"
           class="el-menu-admin"
@@ -11,6 +11,7 @@
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b"
+          :collapse="isCollapse"
         >
           <el-submenu index="1">
             <template slot="title">
@@ -25,8 +26,17 @@
         </el-menu>
       </el-aside>
       <el-container>
-        <el-header>Header</el-header>
-        <el-main>Main</el-main>
+        <el-header>
+          <i class="icon-menu toggle-btn" @click="toggleCollapse"></i>
+          <div class="system-title">后台管理系统</div>
+          <div>
+            <span class="welcome">你好：***</span>
+            <el-button type="text" @click="logout">退出</el-button>
+          </div>
+        </el-header>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -34,6 +44,11 @@
 <script>
 import { getUserList } from "@/api";
 export default {
+  data() {
+    return {
+      isCollapse: false
+    };
+  },
   mounted() {
     let params = { params: { query: "", pagenum: 1, pagesize: 5 } };
     getUserList(params).then(res => {
@@ -46,6 +61,13 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    logout() {
+      localStorage.removeItem("mytoken");
+      this.$router.push({ name: "Login" });
+    },
+    toggleCollapse() {
+      this.isCollapse = !this.isCollapse;
     }
   }
 };
@@ -68,7 +90,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #009688;
+    background-color: #545c64;
   }
   .logo {
     height: 60px;
@@ -84,7 +106,7 @@ export default {
     color: white;
     cursor: pointer;
     &:hover {
-      background-color: #00635a;
+      background-color: #545c64;
     }
   }
   .system-title {
