@@ -10,7 +10,8 @@
         <el-input v-model="form.username" placeholder="请输入用户名" prefix-icon="icon-user"></el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input
+        <el-input 
+          @keydown.native.enter="submitForm('form')"
           v-model="form.password"
           placeholder="请输入密码"
           prefix-icon="icon-key"
@@ -48,8 +49,8 @@ export default {
           checkUser(this.form).then(res => {
             // console.log(res);
             if (res.meta.status === 200) {
-              localStorage.setItem('mytoken',res.data.token)
-              this.$store.commit('setUserName',res.data.username)         
+              localStorage.setItem("mytoken", res.data.token);
+              this.$store.commit("setUserName", res.data.username);
               this.$router.push({ name: "Home" });
             } else {
               this.$message({

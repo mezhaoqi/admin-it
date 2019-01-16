@@ -11,10 +11,15 @@
     </el-row>
     <el-row>
       <el-col :span="24">
-        <el-input placeholder="请输入内容" class="search-input">
-          <el-button slot="append" icon="el-icon-search"></el-button>
+        <el-input
+          placeholder="请输入内容"
+          class="search-input"
+          v-model="query"
+          @keydown.native.enter="init"
+        >
+          <el-button slot="append" icon="el-icon-search" @click="init"></el-button>
         </el-input>
-        <el-button type="primary" plain>搜索</el-button>
+        <el-button type="primary" plain>添加用户</el-button>
       </el-col>
     </el-row>
     <el-table :data="tableData" border style="width: 100%">
@@ -42,10 +47,10 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="1"
-            :page-sizes="[100, 200, 300, 400]"
-            :page-size="100"
+            :page-sizes="[1, 2, 3, 4]"
+            :page-size="1"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400"
+            :total="total"
           ></el-pagination>
         </el-col>
       </el-row>
@@ -58,22 +63,35 @@ export default {
   data() {
     return {
       tableData: [],
-      value2: ""
+      value2: "",
+      query: "",
+      total: 0,
+      pagesize: 1,
+      pagenum: 1
     };
   },
   methods: {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+      this.pagesize = val;
+      this.init();
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.pagenum = val;
+      this.init();
     },
     init() {
-      getUserList({ params: { query: "", pagenum: 1, pagesize: 5 } }).then(
-        res => {
-          this.tableData = res.data.users;
+      getUserList({
+        params: {
+          query: this.query,
+          pagenum: this.pagenum,
+          pagesize: this.pagesize
         }
-      );
+      }).then(res => {
+        this.tableData = res.data.users;
+        this.total = res.data.total;
+      });
     }
   },
   created() {
