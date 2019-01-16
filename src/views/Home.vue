@@ -4,6 +4,7 @@
       <el-aside width="auto">
         <div class="logo"></div>
         <el-menu
+          :router="true"
           default-active="2"
           class="el-menu-admin"
           @open="handleOpen"
@@ -18,7 +19,7 @@
               <i class="el-icon-location"></i>
               <span>用户管理</span>
             </template>
-            <el-menu-item index="2">
+            <el-menu-item index="/user">
               <i class="el-icon-menu"></i>
               <span slot="title">用户列表</span>
             </el-menu-item>
@@ -52,7 +53,7 @@ export default {
   mounted() {
     let params = { params: { query: "", pagenum: 1, pagesize: 5 } };
     getUserList(params).then(res => {
-    //   console.log(res);
+      //   console.log(res);
     });
   },
   methods: {
