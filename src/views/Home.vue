@@ -30,7 +30,7 @@
           <i class="icon-menu toggle-btn" @click="toggleCollapse"></i>
           <div class="system-title">后台管理系统</div>
           <div>
-            <span class="welcome">你好：***</span>
+            <span class="welcome">你好：{{$store.getters.userName}}</span>
             <el-button type="text" @click="logout">退出</el-button>
           </div>
         </el-header>
@@ -52,7 +52,7 @@ export default {
   mounted() {
     let params = { params: { query: "", pagenum: 1, pagesize: 5 } };
     getUserList(params).then(res => {
-      console.log(res);
+    //   console.log(res);
     });
   },
   methods: {
@@ -64,6 +64,7 @@ export default {
     },
     logout() {
       localStorage.removeItem("mytoken");
+      localStorage.removeItem("userName");
       this.$router.push({ name: "Login" });
     },
     toggleCollapse() {

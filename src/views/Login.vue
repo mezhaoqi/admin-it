@@ -49,6 +49,7 @@ export default {
             // console.log(res);
             if (res.meta.status === 200) {
               localStorage.setItem('mytoken',res.data.token)
+              this.$store.commit('setUserName',res.data.username)         
               this.$router.push({ name: "Home" });
             } else {
               this.$message({
@@ -58,7 +59,7 @@ export default {
             }
           });
         } else {
-          console.log("校验部通过");
+          console.log("校验没通过");
         }
       });
     }
