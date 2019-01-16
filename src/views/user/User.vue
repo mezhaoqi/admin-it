@@ -29,7 +29,12 @@
       <el-table-column prop="email" label="邮箱"></el-table-column>
       <el-table-column label="状态">
         <template slot-scope="scope">
-          <el-switch v-model="value2" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+          <el-switch
+            v-model="scope.row.mg_state"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            @change="changeUserState(scope.row)"
+          ></el-switch>
         </template>
       </el-table-column>
       <el-table-column label="操作">
@@ -58,12 +63,11 @@
   </div>
 </template>
 <script>
-import { getUserList } from "@/api";
+import { getUserList, changeUserState } from "@/api";
 export default {
   data() {
     return {
       tableData: [],
-      value2: "",
       query: "",
       total: 0,
       pagesize: 1,
@@ -91,6 +95,22 @@ export default {
       }).then(res => {
         this.tableData = res.data.users;
         this.total = res.data.total;
+      });
+    },
+    changeUserState(row) {
+      //   console.log(row);
+      changeUserState({ uid: row.id, type: row.mg_state }).then(res => {
+        if (res.meta.status === 200) {
+          this.$message({
+            message: "成功修改用户状态",
+            type: "success"
+          });
+        } else {
+          this.$message({
+            message: "修改用户状态失败了",
+            type: "warning"
+          });
+        }
       });
     }
   },
