@@ -4,17 +4,20 @@ const baseURL = 'http://localhost:8888/api/private/v1/';
 axios.defaults.baseURL = baseURL;
 
 // Add a request interceptor
-axios.interceptors.request.use(function (config) {
-    // Do something before request is sent
-    let token = localStorage.getItem('mytoken');
-    if (token) {
-        config.headers['Authorization'] = token
+axios.interceptors.request.use(
+    function (config) {
+        // Do something before request is sent
+        let token = localStorage.getItem('mytoken');
+        if (token) {
+            config.headers['Authorization'] = token
+        }
+        return config;
+    },
+    function (error) {
+        // Do something with request error
+        return Promise.reject(error);
     }
-    return config;
-}, function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-});
+);
 
 // 登录
 export const checkUser = params => {
@@ -52,7 +55,7 @@ export const deleteUser = params => {
 }
 
 //获取角色列表
-export const getRoleList = params => {
+export const getRoleList = () => {
     return axios.get('roles').then(res => res.data);
 }
 
@@ -69,4 +72,30 @@ export const getRightList = params => {
 //删除角色权限
 export const deleteRoleRight = params => {
     return axios.delete(`roles/${params.roleId}/rights/${params.rightId}`).then(res => res.data);
+}
+
+//角色授权
+export const grantRoleRight = params => {
+    return axios.post(`roles/${params.roleId}/rights`, { rids: params.rids }).then(res => res.data);
+}
+
+//添加角色
+export const addRole = params => {
+    return axios.post('roles', params).then(res => res.data);
+}
+
+//编辑角色
+export const editRole = params => {
+    return axios.put(`roles/${params.id}`, { roleName: params.roleName, roleDesc: params.roleDesc }).then(res => res.data);
+}
+
+//删除角色
+export const deleteRole = params => {
+    return axios.delete(`roles/${params.id}`).then(res => res.data);
+}
+
+//左侧菜单权限
+export const getMenus = () => {
+    return axios.get('menus').then(res => res.data);
+
 }

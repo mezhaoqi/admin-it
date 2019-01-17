@@ -15,17 +15,17 @@
           active-text-color="#ffd04b"
           :collapse="isCollapse"
         >
-          <el-submenu index="1">
+          <el-submenu :index="item.path" v-for="item in menusList" :key="item.id">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>用户管理</span>
+              <span>{{item.authName}}</span>
             </template>
-            <el-menu-item index="/user">
+            <el-menu-item :index="tag.path" v-for="tag in item.children" :key="tag.id">
               <i class="el-icon-menu"></i>
-              <span slot="title">用户列表</span>
+              <span slot="title">{{tag.authName}}</span>
             </el-menu-item>
           </el-submenu>
-          <el-submenu index="2">
+          <!-- <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>权限管理</span>
@@ -38,7 +38,7 @@
               <i class="el-icon-menu"></i>
               <span slot="title">角色列表</span>
             </el-menu-item>
-          </el-submenu>
+          </el-submenu>-->
         </el-menu>
       </el-aside>
       <el-container>
@@ -58,17 +58,24 @@
   </div>
 </template>
 <script>
-import { getUserList } from "@/api";
+import { getUserList, getMenus } from "@/api";
 export default {
   data() {
     return {
-      isCollapse: false
+      isCollapse: false,
+      menusList: []
     };
   },
   mounted() {
     let params = { params: { query: "", pagenum: 1, pagesize: 5 } };
     getUserList(params).then(res => {
       //   console.log(res);
+    });
+  },
+  created() {
+    getMenus().then(res => {
+      console.log(res);
+      this.menusList = res.data;
     });
   },
   methods: {
