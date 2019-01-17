@@ -6,8 +6,8 @@ import Home from '@/views/Home'
 import Welcome from '@/views/welcome/Welcome'
 import User from '@/views/user/User'
 
-import Rights from '@/views/rights/Rights'
-import Roles from '@/views/rights/Roles'
+import Rights from '@/views/right/Rights'
+import Roles from '@/views/right/Roles'
 
 
 Vue.use(Router)
