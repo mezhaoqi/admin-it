@@ -97,5 +97,34 @@ export const deleteRole = params => {
 //左侧菜单权限
 export const getMenus = () => {
     return axios.get('menus').then(res => res.data);
+}
 
+//获取分类
+export const getCategory = (params) => {
+    return axios.get('categories', { params: params }).then(res => res.data);
+}
+
+//添加分类
+export const addCategories = params => {
+    return axios.post('categories', params).then(res => res.data);
+}
+
+//删除分类
+export const deleteCategories = params => {
+    return axios.delete(`categories/${params.id}`).then(res => res.data);
+}
+
+//修改分类
+export const editCategories = params => {
+    return axios.put(`categories/${params.id}`, { cat_name: params.cat_name }).then(res => res.data);
+}
+
+//根据id查询分类
+export const getCategoryById = (params) => {
+    return axios.get(`categories/${params.id}`).then(res => res.data);
+}
+
+//获取商品列表
+export const getGoodsList = params => {
+    return axios.get('goods', { params: params }).then(res => res.data);
 }

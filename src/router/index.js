@@ -8,7 +8,9 @@ import User from '@/views/user/User'
 
 import Rights from '@/views/right/Rights'
 import Roles from '@/views/right/Roles'
-
+import Category from '@/views/Category/Category'
+import Goods from '@/views/Goods/Goods'
+import AddGoods from '@/views/Goods/AddGoods'
 
 Vue.use(Router)
 
@@ -45,6 +47,21 @@ export default new Router({
           path: 'Roles',
           name: 'roles',
           component: Roles
+        },
+        {
+          path: 'Categories',
+          name: 'categories',
+          component: Category
+        },
+        {
+          path: 'Goods',
+          name: 'Goods',
+          component: Goods
+        },
+        {
+          path: 'toadd',
+          name: 'AddGoods',
+          component: AddGoods
         }
       ]
     }

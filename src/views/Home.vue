@@ -74,7 +74,7 @@ export default {
   },
   created() {
     getMenus().then(res => {
-      console.log(res);
+      // console.log(res);
       this.menusList = res.data;
     });
   },
